@@ -39,9 +39,12 @@ Parameters:
       - "false"
   PermissionsBoundaryPolicyName:
     Type: String
-    Default: 'T_PROJADMIN_U'
-
+    Default: ''
 Conditions:
+  HasPermissionsBoundary: !Not
+    - !Equals
+      - !Ref PermissionsBoundaryPolicyName
+      - ''
   HasTrustedAccounts:
     Fn::Not:
       - Fn::Equals:
@@ -211,7 +214,11 @@ Resources:
   FilePublishingRole:
     Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+        - Ref: AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -235,7 +242,11 @@ Resources:
   ImagePublishingRole:
     Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+        - Ref: AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -259,7 +270,11 @@ Resources:
   LookupRole:
     Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+        - Ref: AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -364,7 +379,11 @@ Resources:
   DeploymentActionRole:
     Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+        - Ref: AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -459,7 +478,11 @@ Resources:
   CloudFormationExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
+        - Ref: AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
