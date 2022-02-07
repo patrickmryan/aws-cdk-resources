@@ -37,13 +37,13 @@ Parameters:
     AllowedValues:
       - "true"
       - "false"
-  PermissionsBoundaryPolicyName:
+  PermissionsBoundaryPolicy:
     Type: String
     Default: ''
 Conditions:
   HasPermissionsBoundary: !Not
     - !Equals
-      - !Ref PermissionsBoundaryPolicyName
+      - !Ref PermissionsBoundaryPolicy
       - ''
   HasTrustedAccounts:
     Fn::Not:
@@ -217,8 +217,8 @@ Resources:
       PermissionsBoundary:
         Fn::If:
         - HasPermissionsBoundary
-        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
-        - Ref: AWS::NoValue
+        - !Ref PermissionsBoundaryPolicy
+        - !Ref AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -245,8 +245,8 @@ Resources:
       PermissionsBoundary:
         Fn::If:
         - HasPermissionsBoundary
-        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
-        - Ref: AWS::NoValue
+        - !Ref PermissionsBoundaryPolicy
+        - !Ref AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -273,8 +273,8 @@ Resources:
       PermissionsBoundary:
         Fn::If:
         - HasPermissionsBoundary
-        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
-        - Ref: AWS::NoValue
+        - !Ref PermissionsBoundaryPolicy
+        - !Ref AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -382,8 +382,8 @@ Resources:
       PermissionsBoundary:
         Fn::If:
         - HasPermissionsBoundary
-        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
-        - Ref: AWS::NoValue
+        - !Ref PermissionsBoundaryPolicy
+        - !Ref AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -481,8 +481,8 @@ Resources:
       PermissionsBoundary:
         Fn::If:
         - HasPermissionsBoundary
-        - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${PermissionsBoundaryPolicyName}'
-        - Ref: AWS::NoValue
+        - !Ref PermissionsBoundaryPolicy
+        - !Ref AWS::NoValue
       AssumeRolePolicyDocument:
         Statement:
           - Action: sts:AssumeRole
@@ -536,3 +536,4 @@ Outputs:
       Fn::GetAtt:
         - CdkBootstrapVersion
         - Value
+
